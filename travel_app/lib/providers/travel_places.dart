@@ -30,4 +30,17 @@ class TravelPlaces with ChangeNotifier {
       },
     );
   }
+
+  Future<void> fetchAndSetPlaces() async {
+    final dataList = await DBHelper.getData('places');
+    _items = dataList
+        .map((place) => Place(
+              id: place['id'],
+              title: place['title'],
+              image: File(place['image']),
+              location: null,
+            ))
+        .toList();
+    notifyListeners();
+  }
 }

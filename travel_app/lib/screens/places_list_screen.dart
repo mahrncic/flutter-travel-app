@@ -23,34 +23,36 @@ class PlacesListScreen extends StatelessWidget {
       body: FutureBuilder(
         future: Provider.of<TravelPlaces>(context, listen: false)
             .fetchAndSetPlaces(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? const Center(
-                    child: const CircularProgressIndicator(),
-                  )
-                : Consumer<TravelPlaces>(
-                    child: const Center(
-                      child: const Text(
-                        'Got no places yet, start adding some!',
-                      ),
-                    ),
-                    builder: (ctx, travelPlaces, child) =>
-                        travelPlaces.items.length <= 0
-                            ? child
-                            : ListView.builder(
-                                itemBuilder: (ctx, i) => ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage:
-                                        FileImage(travelPlaces.items[i].image),
-                                  ),
-                                  title: Text(travelPlaces.items[i].title),
-                                  onTap: () {
-                                    // Go to detail page
-                                  },
-                                ),
-                                itemCount: travelPlaces.items.length,
-                              ),
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? const Center(
+                child: const CircularProgressIndicator(),
+              )
+            : Consumer<TravelPlaces>(
+                child: const Center(
+                  child: const Text(
+                    'Got no places yet, start adding some!',
                   ),
+                ),
+                builder: (ctx, travelPlaces, child) =>
+                    travelPlaces.items.length <= 0
+                        ? child
+                        : ListView.builder(
+                            itemBuilder: (ctx, i) => ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    FileImage(travelPlaces.items[i].image),
+                              ),
+                              title: Text(travelPlaces.items[i].title),
+                              subtitle:
+                                  Text(travelPlaces.items[i].location.address),
+                              onTap: () {
+                                // Go to detail page
+                              },
+                            ),
+                            itemCount: travelPlaces.items.length,
+                          ),
+              ),
       ),
     );
   }

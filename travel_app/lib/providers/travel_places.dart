@@ -13,6 +13,10 @@ class TravelPlaces with ChangeNotifier {
     return [..._items];
   }
 
+  Place findById(String id) {
+    return _items.firstWhere((place) => place.id == id);
+  }
+
   Future<void> addPlace(String selectedTitle, File selectedImage,
       PlaceLocation selectedLocation) async {
     final address = await LocationHelper.getPlaceAddress(
